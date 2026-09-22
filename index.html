@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clarity — Where your attention finally lands</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1B2430;
+    --ink-soft: #2A3644;
+    --bone: #ECE8DD;
+    --bone-deep: #E0DACB;
+    --amber: #D9A441;
+    --amber-bright: #EAB94F;
+    --teal: #2F6F6B;
+    --slate: #5B6570;
+    --slate-light: #8891A0;
+    --white: #FDFCF9;
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--bone);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img, svg { max-width: 100%; display: block; }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  @media (max-width: 640px) {
+    .wrap { padding: 0 20px; }
+  }
+
+  /* ---------- Nav ---------- */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(236, 232, 221, 0.88);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(27, 36, 48, 0.08);
+  }
+
+  nav .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 76px;
+  }
+
+  .logo {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 21px;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .logo-mark {
+    width: 11px;
+    height: 11px;
+    border-radius: 3px;
+    background: var(--amber);
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--slate);
+  }
+
+  .nav-links a { text-decoration: none; transition: color 0.15s; }
+  .nav-links a:hover { color: var(--ink); }
+
+  .nav-cta {
+    font-size: 14.5px;
+    font-weight: 600;
+    background: var(--ink);
+    color: var(--white) !important;
+    padding: 10px 20px;
+    border-radius: 7px;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .nav-cta:hover { background: var(--ink-soft); }
+
+  @media (max-width: 780px) {
+    .nav-links { display: none; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    background: var(--ink);
+    color: var(--bone);
+    padding: 88px 0 0;
+    overflow: hidden;
+  }
+
+  .hero .wrap {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  @media (max-width: 900px) {
+    .hero .wrap { grid-template-columns: 1fr; }
+    .hero { padding-top: 56px; }
+  }
+
+  .hero-copy h1 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(38px, 5vw, 58px);
+    line-height: 1.06;
+    letter-spacing: -0.01em;
+    max-width: 12ch;
+  }
+
+  .hero-copy p {
+    margin-top: 24px;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #C4CAD3;
+    max-width: 42ch;
+  }
+
+  .hero-actions {
+    margin-top: 36px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--amber);
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 15.5px;
+    padding: 14px 26px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.15s, transform 0.15s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--amber-bright); transform: translateY(-1px); }
+
+  .hero-note {
+    font-size: 14px;
+    color: var(--slate-light);
+  }
+
+  .hero-proof {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 14px;
+    color: var(--slate-light);
+  }
+
+  /* Timeline visual */
+  .timeline-card {
+    background: var(--ink-soft);
+    border-radius: 16px;
+    padding: 28px 24px;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .timeline-label {
+    font-size: 13px;
+    color: var(--slate-light);
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+
+  .timeline-row {
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    gap: 14px;
+    align-items: stretch;
+    margin-bottom: 8px;
+  }
+
+  .timeline-time {
+    font-size: 12.5px;
+    color: var(--slate-light);
+    padding-top: 10px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .timeline-block {
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13.5px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+  }
+
+  .b-scattered {
+    background: rgba(255,255,255,0.05);
+    color: var(--slate-light);
+    border: 1px dashed rgba(255,255,255,0.15);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .b-teal { background: rgba(47,111,107,0.35); color: #A9D6D2; }
+  .b-amber { background: rgba(217,164,65,0.22); color: var(--amber-bright); }
+  .b-amber-solid { background: var(--amber); color: var(--ink); font-weight: 600; }
+
+  /* ---------- Section headers ---------- */
+  .section-head {
+    max-width: 34ch;
+    margin-bottom: 52px;
+  }
+
+  .section-head h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(28px, 3.4vw, 36px);
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+
+  .section-head p {
+    margin-top: 14px;
+    font-size: 16.5px;
+    color: var(--slate);
+    line-height: 1.6;
+  }
+
+  /* ---------- Features (editorial list) ---------- */
+  .features {
+    padding: 108px 0;
+  }
+
+  .feature-list {
+    border-top: 1px solid rgba(27,36,48,0.12);
+  }
+
+  .feature-row {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 40px;
+    padding: 40px 0;
+    border-bottom: 1px solid rgba(27,36,48,0.12);
+  }
+
+  @media (max-width: 720px) {
+    .feature-row { grid-template-columns: 1fr; gap: 12px; }
+  }
+
+  .feature-name {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .feature-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+    margin-top: 9px;
+    flex-shrink: 0;
+  }
+
+  .feature-row:nth-child(1) .feature-dot { background: var(--amber); }
+  .feature-row:nth-child(2) .feature-dot { background: var(--teal); }
+  .feature-row:nth-child(3) .feature-dot { background: var(--amber); }
+  .feature-row:nth-child(4) .feature-dot { background: var(--teal); }
+
+  .feature-desc {
+    color: var(--slate);
+    font-size: 16px;
+    line-height: 1.65;
+    max-width: 52ch;
+    padding-top: 3px;
+  }
+
+  /* ---------- How it works ---------- */
+  .how {
+    background: var(--white);
+    padding: 108px 0;
+    border-top: 1px solid rgba(27,36,48,0.08);
+    border-bottom: 1px solid rgba(27,36,48,0.08);
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 44px;
+  }
+
+  @media (max-width: 780px) {
+    .steps { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  .step-num {
+    font-family: var(--serif);
+    font-size: 15px;
+    color: var(--amber);
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+
+  .step h3 {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  .step p {
+    color: var(--slate);
+    font-size: 15.5px;
+    line-height: 1.6;
+  }
+
+  /* ---------- Testimonial ---------- */
+  .testimonial {
+    padding: 100px 0;
+  }
+
+  .testimonial blockquote {
+    font-family: var(--serif);
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 500;
+    line-height: 1.4;
+    max-width: 22ch;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .testimonial cite {
+    display: block;
+    margin-top: 24px;
+    font-style: normal;
+    font-size: 15px;
+    color: var(--slate);
+  }
+
+  /* ---------- CTA ---------- */
+  .cta {
+    background: var(--teal);
+    color: var(--white);
+    padding: 90px 0;
+    text-align: center;
+  }
+
+  .cta h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(30px, 4vw, 42px);
+    max-width: 16ch;
+    margin: 0 auto;
+    line-height: 1.15;
+  }
+
+  .cta p {
+    margin-top: 16px;
+    color: #C9DEDC;
+    font-size: 16.5px;
+  }
+
+  .cta .btn-primary {
+    margin-top: 32px;
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    background: var(--ink);
+    color: var(--slate-light);
+    padding: 56px 0 40px;
+  }
+
+  footer .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  footer .logo { color: var(--bone); }
+
+  .footer-links {
+    display: flex;
+    gap: 28px;
+    font-size: 14.5px;
+  }
+
+  .footer-links a { text-decoration: none; }
+  .footer-links a:hover { color: var(--bone); }
+
+  .footer-bottom {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    font-size: 13.5px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; }
+  }
+
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--amber);
+    outline-offset: 2px;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="logo-mark"></span>Clarity</div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#cta">Pricing</a>
+    </div>
+    <a href="#cta" class="nav-cta">Get started</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <h1>Where your attention finally lands.</h1>
+      <p>Clarity turns a scattered to-do list into a day you can actually follow — one block of real focus at a time.</p>
+      <div class="hero-actions">
+        <a href="#cta" class="btn-primary">Start your first session</a>
+        <span class="hero-note">Free for 14 days. No card required.</span>
+      </div>
+      <div class="hero-proof">Built for people who've tried five other planners and still end the day scattered.</div>
+    </div>
+
+    <div class="timeline-card">
+      <div class="timeline-label">Tuesday, before → after Clarity</div>
+      <div class="timeline-row">
+        <div class="timeline-time">9:00</div>
+        <div class="timeline-block b-scattered">check email... reply to Sam... wait, deck?</div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-time">10:00</div>
+        <div class="timeline-block b-scattered">open 6 tabs, close 4, open 2 more</div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-time">11:00</div>
+        <div class="timeline-block b-teal">Deep work — Q3 deck</div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-time">12:30</div>
+        <div class="timeline-block b-amber">Lunch, actually away from desk</div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-time">1:30</div>
+        <div class="timeline-block b-teal">Deep work — client review</div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-time">3:00</div>
+        <div class="timeline-block b-amber-solid">Focus session · 50 min, no notifications</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="features" id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Four habits, not forty features.</h2>
+      <p>Clarity does a few things well instead of everything half-heartedly.</p>
+    </div>
+
+    <div class="feature-list">
+      <div class="feature-row">
+        <div class="feature-name"><span class="feature-dot"></span>Focus sessions</div>
+        <div class="feature-desc">Pick a task, set a length, and Clarity silences notifications, hides other tabs, and tracks the block automatically — so "focus time" is a real, measurable thing, not a hope.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name"><span class="feature-dot"></span>Smart time blocks</div>
+        <div class="feature-desc">Drop tasks into your day and Clarity arranges them around your existing meetings and your actual energy patterns, instead of leaving you to Tetris your own calendar.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name"><span class="feature-dot"></span>Weekly rhythm</div>
+        <div class="feature-desc">Every Friday, see which blocks you kept and which you skipped — not as a guilt trip, but as a pattern you can actually plan around next week.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name"><span class="feature-dot"></span>Gentle nudges</div>
+        <div class="feature-desc">One quiet reminder when a session starts, one when it ends. No streaks to protect, no red badges piling up while you're trying to concentrate.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Three steps, every day.</h2>
+      <p>No onboarding maze. Open Clarity and you're already doing it.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Plan your day</h3>
+        <p>List what actually needs doing. Clarity slots it into blocks around the meetings already on your calendar.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Enter a session</h3>
+        <p>Start a block and the noise drops away — notifications muted, one task on screen, a timer counting down.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Review your week</h3>
+        <p>See where your focus actually went, and adjust next week's blocks instead of just hoping it goes better.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonial">
+  <div class="wrap">
+    <blockquote>
+      "I stopped measuring my day by how full my inbox was. I measure it by how many sessions I finished."
+      <cite>— Early Clarity user, product designer</cite>
+    </blockquote>
+  </div>
+</section>
+
+<section class="cta" id="cta">
+  <div class="wrap">
+    <h2>Your next focused hour starts here.</h2>
+    <p>Free for 14 days. Set up your first block in under two minutes.</p>
+    <a href="#" class="btn-primary">Start your first session</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="logo"><span class="logo-mark"></span>Clarity</div>
+    <div class="footer-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#cta">Pricing</a>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    © 2026 Clarity. A fictional product, built for practice.
+  </div>
+</footer>
+
+</body>
+</html>
