@@ -1,588 +1,1007 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Clarity — Where your attention finally lands</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --ink: #1B2430;
-    --ink-soft: #2A3644;
-    --bone: #ECE8DD;
-    --bone-deep: #E0DACB;
-    --amber: #D9A441;
-    --amber-bright: #EAB94F;
-    --teal: #2F6F6B;
-    --slate: #5B6570;
-    --slate-light: #8891A0;
-    --white: #FDFCF9;
-    --serif: 'Fraunces', Georgia, serif;
-    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: var(--sans);
-    color: var(--ink);
-    background: var(--bone);
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  img, svg { max-width: 100%; display: block; }
-
-  a { color: inherit; }
-
-  .wrap {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 0 32px;
-  }
-
-  @media (max-width: 640px) {
-    .wrap { padding: 0 20px; }
-  }
-
-  /* ---------- Nav ---------- */
-  nav {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: rgba(236, 232, 221, 0.88);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(27, 36, 48, 0.08);
-  }
-
-  nav .wrap {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 76px;
-  }
-
-  .logo {
-    font-family: var(--serif);
-    font-weight: 600;
-    font-size: 21px;
-    letter-spacing: -0.01em;
-    display: flex;
-    align-items: center;
-    gap: 9px;
-  }
-
-  .logo-mark {
-    width: 11px;
-    height: 11px;
-    border-radius: 3px;
-    background: var(--amber);
-    flex-shrink: 0;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 36px;
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--slate);
-  }
-
-  .nav-links a { text-decoration: none; transition: color 0.15s; }
-  .nav-links a:hover { color: var(--ink); }
-
-  .nav-cta {
-    font-size: 14.5px;
-    font-weight: 600;
-    background: var(--ink);
-    color: var(--white) !important;
-    padding: 10px 20px;
-    border-radius: 7px;
-    text-decoration: none;
-    transition: background 0.15s;
-  }
-  .nav-cta:hover { background: var(--ink-soft); }
-
-  @media (max-width: 780px) {
-    .nav-links { display: none; }
-  }
-
-  /* ---------- Hero ---------- */
-  .hero {
-    background: var(--ink);
-    color: var(--bone);
-    padding: 88px 0 0;
-    overflow: hidden;
-  }
-
-  .hero .wrap {
-    display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: 56px;
-    align-items: center;
-  }
-
-  @media (max-width: 900px) {
-    .hero .wrap { grid-template-columns: 1fr; }
-    .hero { padding-top: 56px; }
-  }
-
-  .hero-copy h1 {
-    font-family: var(--serif);
-    font-weight: 500;
-    font-size: clamp(38px, 5vw, 58px);
-    line-height: 1.06;
-    letter-spacing: -0.01em;
-    max-width: 12ch;
-  }
-
-  .hero-copy p {
-    margin-top: 24px;
-    font-size: 18px;
-    line-height: 1.6;
-    color: #C4CAD3;
-    max-width: 42ch;
-  }
-
-  .hero-actions {
-    margin-top: 36px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .btn-primary {
-    background: var(--amber);
-    color: var(--ink);
-    font-weight: 600;
-    font-size: 15.5px;
-    padding: 14px 26px;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: background 0.15s, transform 0.15s;
-    display: inline-block;
-  }
-  .btn-primary:hover { background: var(--amber-bright); transform: translateY(-1px); }
-
-  .hero-note {
-    font-size: 14px;
-    color: var(--slate-light);
-  }
-
-  .hero-proof {
-    margin-top: 56px;
-    padding-top: 24px;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    font-size: 14px;
-    color: var(--slate-light);
-  }
-
-  /* Timeline visual */
-  .timeline-card {
-    background: var(--ink-soft);
-    border-radius: 16px;
-    padding: 28px 24px;
-    border: 1px solid rgba(255,255,255,0.07);
-  }
-
-  .timeline-label {
-    font-size: 13px;
-    color: var(--slate-light);
-    margin-bottom: 18px;
-    font-weight: 500;
-  }
-
-  .timeline-row {
-    display: grid;
-    grid-template-columns: 46px 1fr;
-    gap: 14px;
-    align-items: stretch;
-    margin-bottom: 8px;
-  }
-
-  .timeline-time {
-    font-size: 12.5px;
-    color: var(--slate-light);
-    padding-top: 10px;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .timeline-block {
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-size: 13.5px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    min-height: 40px;
-  }
-
-  .b-scattered {
-    background: rgba(255,255,255,0.05);
-    color: var(--slate-light);
-    border: 1px dashed rgba(255,255,255,0.15);
-    font-style: italic;
-    font-weight: 400;
-  }
-
-  .b-teal { background: rgba(47,111,107,0.35); color: #A9D6D2; }
-  .b-amber { background: rgba(217,164,65,0.22); color: var(--amber-bright); }
-  .b-amber-solid { background: var(--amber); color: var(--ink); font-weight: 600; }
-
-  /* ---------- Section headers ---------- */
-  .section-head {
-    max-width: 34ch;
-    margin-bottom: 52px;
-  }
-
-  .section-head h2 {
-    font-family: var(--serif);
-    font-weight: 500;
-    font-size: clamp(28px, 3.4vw, 36px);
-    letter-spacing: -0.01em;
-    line-height: 1.15;
-  }
-
-  .section-head p {
-    margin-top: 14px;
-    font-size: 16.5px;
-    color: var(--slate);
-    line-height: 1.6;
-  }
-
-  /* ---------- Features (editorial list) ---------- */
-  .features {
-    padding: 108px 0;
-  }
-
-  .feature-list {
-    border-top: 1px solid rgba(27,36,48,0.12);
-  }
-
-  .feature-row {
-    display: grid;
-    grid-template-columns: 1fr 1.6fr;
-    gap: 40px;
-    padding: 40px 0;
-    border-bottom: 1px solid rgba(27,36,48,0.12);
-  }
-
-  @media (max-width: 720px) {
-    .feature-row { grid-template-columns: 1fr; gap: 12px; }
-  }
-
-  .feature-name {
-    font-family: var(--serif);
-    font-size: 22px;
-    font-weight: 500;
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .feature-dot {
-    width: 9px;
-    height: 9px;
-    border-radius: 2px;
-    margin-top: 9px;
-    flex-shrink: 0;
-  }
-
-  .feature-row:nth-child(1) .feature-dot { background: var(--amber); }
-  .feature-row:nth-child(2) .feature-dot { background: var(--teal); }
-  .feature-row:nth-child(3) .feature-dot { background: var(--amber); }
-  .feature-row:nth-child(4) .feature-dot { background: var(--teal); }
-
-  .feature-desc {
-    color: var(--slate);
-    font-size: 16px;
-    line-height: 1.65;
-    max-width: 52ch;
-    padding-top: 3px;
-  }
-
-  /* ---------- How it works ---------- */
-  .how {
-    background: var(--white);
-    padding: 108px 0;
-    border-top: 1px solid rgba(27,36,48,0.08);
-    border-bottom: 1px solid rgba(27,36,48,0.08);
-  }
-
-  .steps {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 44px;
-  }
-
-  @media (max-width: 780px) {
-    .steps { grid-template-columns: 1fr; gap: 40px; }
-  }
-
-  .step-num {
-    font-family: var(--serif);
-    font-size: 15px;
-    color: var(--amber);
-    font-weight: 600;
-    margin-bottom: 18px;
-  }
-
-  .step h3 {
-    font-family: var(--serif);
-    font-size: 21px;
-    font-weight: 500;
-    margin-bottom: 10px;
-  }
-
-  .step p {
-    color: var(--slate);
-    font-size: 15.5px;
-    line-height: 1.6;
-  }
-
-  /* ---------- Testimonial ---------- */
-  .testimonial {
-    padding: 100px 0;
-  }
-
-  .testimonial blockquote {
-    font-family: var(--serif);
-    font-size: clamp(24px, 3vw, 32px);
-    font-weight: 500;
-    line-height: 1.4;
-    max-width: 22ch;
-    color: var(--ink);
-    letter-spacing: -0.01em;
-  }
-
-  .testimonial cite {
-    display: block;
-    margin-top: 24px;
-    font-style: normal;
-    font-size: 15px;
-    color: var(--slate);
-  }
-
-  /* ---------- CTA ---------- */
-  .cta {
-    background: var(--teal);
-    color: var(--white);
-    padding: 90px 0;
-    text-align: center;
-  }
-
-  .cta h2 {
-    font-family: var(--serif);
-    font-weight: 500;
-    font-size: clamp(30px, 4vw, 42px);
-    max-width: 16ch;
-    margin: 0 auto;
-    line-height: 1.15;
-  }
-
-  .cta p {
-    margin-top: 16px;
-    color: #C9DEDC;
-    font-size: 16.5px;
-  }
-
-  .cta .btn-primary {
-    margin-top: 32px;
-  }
-
-  /* ---------- Footer ---------- */
-  footer {
-    background: var(--ink);
-    color: var(--slate-light);
-    padding: 56px 0 40px;
-  }
-
-  footer .wrap {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 24px;
-  }
-
-  footer .logo { color: var(--bone); }
-
-  .footer-links {
-    display: flex;
-    gap: 28px;
-    font-size: 14.5px;
-  }
-
-  .footer-links a { text-decoration: none; }
-  .footer-links a:hover { color: var(--bone); }
-
-  .footer-bottom {
-    margin-top: 40px;
-    padding-top: 24px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    font-size: 13.5px;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    * { transition: none !important; }
-  }
-
-  a:focus-visible, button:focus-visible {
-    outline: 2px solid var(--amber);
-    outline-offset: 2px;
-  }
-</style>
-
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "75e4945bdb4b408ebf4ea54cbcd7ed16"}'></script><!-- End Cloudflare Web Analytics -->
- 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Clarity turns a scattered to-do list into a focused day you can actually follow.">
+  <title>Clarity — Turn a scattered day into focused blocks</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink: #182330;
+      --ink-soft: #253342;
+      --cream: #f0ece2;
+      --cream-deep: #e4dfd3;
+      --paper: #fbfaf6;
+      --amber: #dfa83f;
+      --amber-bright: #efbd54;
+      --teal: #2e716d;
+      --teal-light: #a8d3cf;
+      --slate: #657181;
+      --slate-light: #9aa4b2;
+      --white: #fffdf8;
+      --serif: "Fraunces", Georgia, serif;
+      --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--ink);
+      background: var(--cream);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+    button, input { font: inherit; }
+
+    .wrap {
+      width: min(var(--max), calc(100% - 48px));
+      margin-inline: auto;
+    }
+
+    /* Navigation */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(240, 236, 226, .94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(24, 35, 48, .09);
+    }
+
+    nav .wrap {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      text-decoration: none;
+      font-family: var(--serif);
+      font-size: 21px;
+      font-weight: 600;
+      letter-spacing: -.02em;
+      flex-shrink: 0;
+    }
+
+    .logo-mark {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      background: var(--amber);
+      flex: 0 0 auto;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      margin-left: auto;
+      margin-right: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--slate);
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      transition: color .15s ease;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    .nav-cta,
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      border: 0;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
+    }
+
+    .nav-cta {
+      min-height: 40px;
+      padding: 0 18px;
+      border-radius: 7px;
+      background: var(--ink);
+      color: var(--white);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .nav-cta:hover { background: var(--ink-soft); transform: translateY(-1px); }
+
+    /* Hero */
+    .hero {
+      background: var(--ink);
+      color: var(--cream);
+      padding: clamp(64px, 9vw, 104px) 0 84px;
+      overflow: hidden;
+    }
+
+    .hero .wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(420px, .88fr);
+      gap: clamp(44px, 7vw, 82px);
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      color: var(--amber-bright);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 2px;
+      background: var(--amber);
+    }
+
+    .hero-copy h1 {
+      max-width: 10.5ch;
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(44px, 6vw, 68px);
+      line-height: .99;
+      letter-spacing: -.035em;
+      font-weight: 500;
+    }
+
+    .hero-copy h1 em {
+      color: var(--amber-bright);
+      font-style: normal;
+    }
+
+    .hero-copy > p {
+      max-width: 49ch;
+      margin: 25px 0 0;
+      color: #c8ced6;
+      font-size: clamp(16px, 2vw, 18px);
+      line-height: 1.65;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .btn-primary {
+      min-height: 50px;
+      padding: 0 22px;
+      border-radius: 8px;
+      background: var(--amber);
+      color: var(--ink);
+      font-size: 15px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.14);
+    }
+
+    .btn-primary:hover {
+      background: var(--amber-bright);
+      transform: translateY(-2px);
+    }
+
+    .hero-note {
+      color: var(--slate-light);
+      font-size: 13px;
+    }
+
+    .hero-proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 36px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,.1);
+      color: var(--slate-light);
+      font-size: 13px;
+    }
+
+    .hero-proof span::before {
+      content: "✓";
+      color: var(--amber-bright);
+      font-weight: 700;
+      margin-right: 7px;
+    }
+
+    /* Product visual */
+    .timeline-card {
+      position: relative;
+      background: var(--ink-soft);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 28px 70px rgba(0,0,0,.2);
+    }
+
+    .timeline-card::before {
+      content: "A focused day";
+      display: block;
+      margin-bottom: 17px;
+      color: var(--slate-light);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .04em;
+    }
+
+    .timeline-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      color: #aeb7c3;
+      font-size: 12px;
+    }
+
+    .timeline-label strong {
+      color: var(--teal-light);
+      font-weight: 600;
+    }
+
+    .timeline-row {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr);
+      gap: 12px;
+      align-items: stretch;
+      margin-bottom: 8px;
+    }
+
+    .timeline-time {
+      padding-top: 10px;
+      color: #8994a3;
+      font-size: 11px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timeline-block {
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 12.5px;
+      line-height: 1.35;
+      font-weight: 600;
+    }
+
+    .b-scattered {
+      color: #909aa8;
+      border: 1px dashed rgba(255,255,255,.14);
+      background: rgba(255,255,255,.035);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .b-teal { background: rgba(46,113,109,.42); color: #b8dfdc; }
+    .b-amber { background: rgba(223,168,63,.19); color: #e7b94f; }
+    .b-amber-solid { background: var(--amber); color: var(--ink); }
+
+    .timeline-result {
+      margin-top: 17px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      color: #b9c2cd;
+      font-size: 12px;
+    }
+
+    .timeline-result strong { color: var(--white); }
+
+    /* Sections */
+    section { scroll-margin-top: 80px; }
+
+    .features {
+      padding: clamp(76px, 10vw, 112px) 0;
+      background: var(--cream);
+    }
+
+    .section-intro {
+      max-width: 590px;
+      margin-bottom: 48px;
+    }
+
+    .section-kicker {
+      margin-bottom: 12px;
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .section-intro h2 {
+      margin: 0;
+      max-width: 16ch;
+      font-family: var(--serif);
+      font-size: clamp(31px, 4vw, 42px);
+      line-height: 1.08;
+      letter-spacing: -.025em;
+      font-weight: 500;
+    }
+
+    .section-intro p {
+      max-width: 52ch;
+      margin: 15px 0 0;
+      color: var(--slate);
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .feature-list {
+      border-top: 1px solid rgba(24,35,48,.13);
+    }
+
+    .feature-row {
+      display: grid;
+      grid-template-columns: minmax(190px, .8fr) minmax(0, 1.6fr);
+      gap: 48px;
+      padding: 30px 0;
+      border-bottom: 1px solid rgba(24,35,48,.13);
+    }
+
+    .feature-name {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      font-family: var(--serif);
+      font-size: 21px;
+      font-weight: 500;
+    }
+
+    .feature-dot {
+      width: 8px;
+      height: 8px;
+      margin-top: 9px;
+      border-radius: 2px;
+      background: var(--amber);
+      flex: 0 0 auto;
+    }
+
+    .feature-row:nth-child(even) .feature-dot { background: var(--teal); }
+
+    .feature-desc {
+      max-width: 62ch;
+      padding-top: 2px;
+      color: var(--slate);
+      font-size: 15.5px;
+      line-height: 1.65;
+    }
+
+    /* How it works */
+    .how {
+      padding: clamp(76px, 10vw, 112px) 0;
+      background: var(--paper);
+      border-top: 1px solid rgba(24,35,48,.08);
+      border-bottom: 1px solid rgba(24,35,48,.08);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-top: 1px solid rgba(24,35,48,.13);
+      border-bottom: 1px solid rgba(24,35,48,.13);
+    }
+
+    .step {
+      padding: 30px 34px 32px 0;
+    }
+
+    .step + .step {
+      padding-left: 34px;
+      border-left: 1px solid rgba(24,35,48,.13);
+    }
+
+    .step-num {
+      margin-bottom: 17px;
+      color: var(--amber);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .1em;
+    }
+
+    .step h3 {
+      margin: 0 0 9px;
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 500;
+    }
+
+    .step p {
+      max-width: 31ch;
+      margin: 0;
+      color: var(--slate);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    /* Final CTA */
+    .cta {
+      padding: clamp(70px, 9vw, 100px) 0;
+      background: var(--teal);
+      color: var(--white);
+      text-align: center;
+    }
+
+    .cta h2 {
+      max-width: 17ch;
+      margin: 0 auto;
+      font-family: var(--serif);
+      font-size: clamp(32px, 5vw, 48px);
+      line-height: 1.05;
+      letter-spacing: -.025em;
+      font-weight: 500;
+    }
+
+    .cta p {
+      margin: 15px auto 0;
+      color: #cce0de;
+      font-size: 16px;
+    }
+
+    .cta .btn-primary { margin-top: 28px; }
+
+    .cta-note {
+      margin-top: 12px;
+      color: #b9d2cf;
+      font-size: 12px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 46px 0 30px;
+      background: var(--ink);
+      color: var(--slate-light);
+    }
+
+    footer .wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    footer .logo { color: var(--cream); }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      font-size: 13px;
+    }
+
+    .footer-links a { text-decoration: none; }
+    .footer-links a:hover { color: var(--cream); }
+
+    .footer-bottom {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      font-size: 12px;
+    }
+
+    /* Demo modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: rgba(10,16,22,.66);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .2s ease, visibility .2s ease;
+    }
+
+    .modal-backdrop.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      width: min(460px, 100%);
+      padding: 28px;
+      border-radius: 16px;
+      background: var(--paper);
+      box-shadow: 0 30px 90px rgba(0,0,0,.3);
+      transform: translateY(8px);
+      transition: transform .2s ease;
+    }
+
+    .modal-backdrop.is-open .modal { transform: translateY(0); }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .modal h2 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 29px;
+      font-weight: 500;
+      line-height: 1.1;
+    }
+
+    .modal-close {
+      width: 34px;
+      height: 34px;
+      border: 0;
+      border-radius: 7px;
+      background: var(--cream);
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .modal p {
+      margin: 10px 0 22px;
+      color: var(--slate);
+      font-size: 14px;
+    }
+
+    .modal label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .modal input {
+      width: 100%;
+      min-height: 46px;
+      margin-bottom: 15px;
+      padding: 0 13px;
+      border: 1px solid #d4d0c6;
+      border-radius: 7px;
+      background: white;
+      color: var(--ink);
+      outline: none;
+    }
+
+    .modal input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(46,113,109,.12);
+    }
+
+    .duration-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .duration {
+      min-height: 42px;
+      border: 1px solid #d4d0c6;
+      border-radius: 7px;
+      background: white;
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .duration.is-selected {
+      border-color: var(--teal);
+      background: #e4efed;
+      color: var(--teal);
+    }
+
+    .modal .btn-primary {
+      width: 100%;
+      box-shadow: none;
+    }
+
+    .session-message {
+      display: none;
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 7px;
+      background: #e5efed;
+      color: var(--teal);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .session-message.is-visible { display: block; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero .wrap { grid-template-columns: 1fr; }
+      .hero-copy h1 { max-width: 13ch; }
+      .timeline-card { max-width: 680px; }
+    }
+
+    @media (max-width: 760px) {
+      .wrap { width: min(100% - 36px, var(--max)); }
+
+      nav .wrap { min-height: 62px; }
+      .nav-links { display: none; }
+      .nav-cta { min-height: 38px; padding-inline: 14px; }
+
+      .hero { padding-top: 56px; padding-bottom: 64px; }
+      .hero .wrap { gap: 40px; }
+      .hero-copy h1 { font-size: clamp(42px, 12vw, 58px); }
+      .hero-actions { align-items: stretch; flex-direction: column; }
+      .btn-primary { width: 100%; }
+      .hero-note { text-align: center; }
+
+      .feature-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 25px 0;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .step,
+      .step + .step {
+        padding: 26px 0;
+        border-left: 0;
+      }
+
+      .step + .step {
+        border-top: 1px solid rgba(24,35,48,.13);
+      }
+
+      .step p { max-width: 50ch; }
+    }
+
+    @media (max-width: 520px) {
+      .wrap { width: min(100% - 28px, var(--max)); }
+
+      .logo { font-size: 19px; }
+      .nav-cta { font-size: 13px; }
+
+      .hero-copy > p { font-size: 15.5px; }
+      .hero-proof { gap: 8px; flex-direction: column; }
+
+      .timeline-card { padding: 18px; border-radius: 14px; }
+      .timeline-row { grid-template-columns: 40px minmax(0, 1fr); gap: 8px; }
+      .timeline-block { font-size: 11.5px; padding: 9px 10px; }
+
+      .section-intro { margin-bottom: 36px; }
+      .section-intro h2 { font-size: 32px; }
+
+      .cta .btn-primary { width: min(100%, 330px); }
+
+      .modal { padding: 22px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        transition: none !important;
+      }
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible {
+      outline: 2px solid var(--amber);
+      outline-offset: 3px;
+    }
+  </style>
 </head>
+
 <body>
+  <nav aria-label="Primary navigation">
+    <div class="wrap">
+      <a class="logo" href="#" aria-label="Clarity home">
+        <span class="logo-mark" aria-hidden="true"></span>
+        Clarity
+      </a>
 
-<nav>
-  <div class="wrap">
-    <div class="logo"><span class="logo-mark"></span>Clarity</div>
-    <div class="nav-links">
-      <a href="#features">Features</a>
-      <a href="#how">How it works</a>
-      <a href="#cta">Pricing</a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+      </div>
+
+      <button class="nav-cta js-open-session" type="button">Start a session</button>
     </div>
-    <a href="#cta" class="nav-cta">Get started</a>
-  </div>
-</nav>
+  </nav>
 
-<header class="hero">
-  <div class="wrap">
-    <div class="hero-copy">
-      <h1>Where your attention finally lands.</h1>
-      <p>Clarity turns a scattered to-do list into a day you can actually follow — one block of real focus at a time.</p>
-      <div class="hero-actions">
-        <a href="#cta" class="btn-primary">Start your first session</a>
-        <span class="hero-note">Free for 14 days. No card required.</span>
+  <main>
+    <header class="hero">
+      <div class="wrap">
+        <div class="hero-copy">
+          <div class="eyebrow">A calmer way to plan your day</div>
+
+          <h1>Turn a scattered day into <em>focused blocks.</em></h1>
+
+          <p>
+            Clarity turns your tasks into a realistic plan, protects time to do them,
+            and helps you finish the work that actually matters.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn-primary js-open-session" type="button">
+              Build my focused day →
+            </button>
+            <span class="hero-note">Free for 14 days · No card required</span>
+          </div>
+
+          <div class="hero-proof" aria-label="Clarity benefits">
+            <span>One task at a time</span>
+            <span>Notifications muted</span>
+            <span>Simple weekly review</span>
+          </div>
+        </div>
+
+        <div class="timeline-card" aria-label="Example of a day before and after Clarity">
+          <div class="timeline-label">
+            <span>Tuesday</span>
+            <strong>after Clarity</strong>
+          </div>
+
+          <div class="timeline-row">
+            <div class="timeline-time">9:00</div>
+            <div class="timeline-block b-scattered">check email… reply to Sam… wait, deck?</div>
+          </div>
+
+          <div class="timeline-row">
+            <div class="timeline-time">10:00</div>
+            <div class="timeline-block b-scattered">open 6 tabs, close 4, open 2 more</div>
+          </div>
+
+          <div class="timeline-row">
+            <div class="timeline-time">11:00</div>
+            <div class="timeline-block b-teal">Deep work — Q3 deck</div>
+          </div>
+
+          <div class="timeline-row">
+            <div class="timeline-time">12:30</div>
+            <div class="timeline-block b-amber">Lunch, actually away from desk</div>
+          </div>
+
+          <div class="timeline-row">
+            <div class="timeline-time">1:30</div>
+            <div class="timeline-block b-teal">Deep work — client review</div>
+          </div>
+
+          <div class="timeline-row">
+            <div class="timeline-time">3:00</div>
+            <div class="timeline-block b-amber-solid">Focus session · 50 min, no notifications</div>
+          </div>
+
+          <div class="timeline-result">
+            <strong>Result:</strong> fewer switches, clearer next action, work actually finished.
+          </div>
+        </div>
       </div>
-      <div class="hero-proof">Built for people who've tried five other planners and still end the day scattered.</div>
+    </header>
+
+    <section class="features" id="features">
+      <div class="wrap">
+        <div class="section-intro">
+          <div class="section-kicker">What Clarity does</div>
+          <h2>Less planning. More protected time to do the work.</h2>
+          <p>
+            Four simple habits replace the endless cycle of lists, tabs and
+            overstuffed calendars.
+          </p>
+        </div>
+
+        <div class="feature-list">
+          <article class="feature-row">
+            <div class="feature-name"><span class="feature-dot" aria-hidden="true"></span>Focus sessions</div>
+            <div class="feature-desc">
+              Pick one task and a length. Clarity protects the block, mutes distractions,
+              and gives you a clear finish line.
+            </div>
+          </article>
+
+          <article class="feature-row">
+            <div class="feature-name"><span class="feature-dot" aria-hidden="true"></span>Smart time blocks</div>
+            <div class="feature-desc">
+              Drop in what needs doing and Clarity places it around the commitments
+              already on your day.
+            </div>
+          </article>
+
+          <article class="feature-row">
+            <div class="feature-name"><span class="feature-dot" aria-hidden="true"></span>Weekly rhythm</div>
+            <div class="feature-desc">
+              See which blocks you completed or skipped, then use the pattern to plan
+              a more realistic next week.
+            </div>
+          </article>
+
+          <article class="feature-row">
+            <div class="feature-name"><span class="feature-dot" aria-hidden="true"></span>Gentle nudges</div>
+            <div class="feature-desc">
+              One quiet reminder starts the session and one ends it. No streaks,
+              badges or guilt loops competing for your attention.
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="how" id="how">
+      <div class="wrap">
+        <div class="section-intro">
+          <div class="section-kicker">How it works</div>
+          <h2>Three steps between “busy” and “done.”</h2>
+          <p>Clarity is designed to disappear into your day, not become another thing to manage.</p>
+        </div>
+
+        <div class="steps">
+          <article class="step">
+            <div class="step-num">01</div>
+            <h3>Plan the real work</h3>
+            <p>List what matters today. Clarity turns it into blocks around your existing commitments.</p>
+          </article>
+
+          <article class="step">
+            <div class="step-num">02</div>
+            <h3>Start one block</h3>
+            <p>Enter a session with one task, a timer and fewer distractions. Then just do the work.</p>
+          </article>
+
+          <article class="step">
+            <div class="step-num">03</div>
+            <h3>Learn your rhythm</h3>
+            <p>Review what actually happened and adjust next week's blocks instead of starting from zero.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="cta">
+      <div class="wrap">
+        <h2>Your next focused hour starts here.</h2>
+        <p>Set up your first block in under two minutes.</p>
+        <button class="btn-primary js-open-session" type="button">Build my first block →</button>
+        <div class="cta-note">14-day free trial · No card required</div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <a class="logo" href="#" aria-label="Clarity home">
+        <span class="logo-mark" aria-hidden="true"></span>
+        Clarity
+      </a>
+
+      <div class="footer-links">
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#cta">Start</a>
+      </div>
     </div>
 
-    <div class="timeline-card">
-      <div class="timeline-label">Tuesday, before → after Clarity</div>
-      <div class="timeline-row">
-        <div class="timeline-time">9:00</div>
-        <div class="timeline-block b-scattered">check email... reply to Sam... wait, deck?</div>
+    <div class="wrap footer-bottom">
+      © 2026 Clarity. A fictional product, built for practice.
+    </div>
+  </footer>
+
+  <!-- Lightweight product-demo onboarding: no backend required. -->
+  <div class="modal-backdrop" id="sessionModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head">
+        <h2 id="modalTitle">Set your first focus block.</h2>
+        <button class="modal-close" id="closeModal" type="button" aria-label="Close">×</button>
       </div>
-      <div class="timeline-row">
-        <div class="timeline-time">10:00</div>
-        <div class="timeline-block b-scattered">open 6 tabs, close 4, open 2 more</div>
-      </div>
-      <div class="timeline-row">
-        <div class="timeline-time">11:00</div>
-        <div class="timeline-block b-teal">Deep work — Q3 deck</div>
-      </div>
-      <div class="timeline-row">
-        <div class="timeline-time">12:30</div>
-        <div class="timeline-block b-amber">Lunch, actually away from desk</div>
-      </div>
-      <div class="timeline-row">
-        <div class="timeline-time">1:30</div>
-        <div class="timeline-block b-teal">Deep work — client review</div>
-      </div>
-      <div class="timeline-row">
-        <div class="timeline-time">3:00</div>
-        <div class="timeline-block b-amber-solid">Focus session · 50 min, no notifications</div>
-      </div>
+
+      <p>Choose one thing you want finished. Clarity will turn it into a focused block.</p>
+
+      <form id="sessionForm">
+        <label for="task">What do you want to finish?</label>
+        <input id="task" name="task" type="text" placeholder="e.g. Finish the Q3 deck" autocomplete="off" required>
+
+        <label>How long?</label>
+        <div class="duration-row" role="group" aria-label="Session length">
+          <button class="duration" type="button" data-minutes="25">25 min</button>
+          <button class="duration is-selected" type="button" data-minutes="50">50 min</button>
+          <button class="duration" type="button" data-minutes="90">90 min</button>
+        </div>
+
+        <button class="btn-primary" type="submit">Start focus block</button>
+        <div class="session-message" id="sessionMessage" role="status"></div>
+      </form>
     </div>
   </div>
-</header>
 
-<section class="features" id="features">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Four habits, not forty features.</h2>
-      <p>Clarity does a few things well instead of everything half-heartedly.</p>
-    </div>
+  <script>
+    (() => {
+      const modal = document.getElementById("sessionModal");
+      const close = document.getElementById("closeModal");
+      const task = document.getElementById("task");
+      const form = document.getElementById("sessionForm");
+      const message = document.getElementById("sessionMessage");
+      const durationButtons = [...document.querySelectorAll(".duration")];
 
-    <div class="feature-list">
-      <div class="feature-row">
-        <div class="feature-name"><span class="feature-dot"></span>Focus sessions</div>
-        <div class="feature-desc">Pick a task, set a length, and Clarity silences notifications, hides other tabs, and tracks the block automatically — so "focus time" is a real, measurable thing, not a hope.</div>
-      </div>
-      <div class="feature-row">
-        <div class="feature-name"><span class="feature-dot"></span>Smart time blocks</div>
-        <div class="feature-desc">Drop tasks into your day and Clarity arranges them around your existing meetings and your actual energy patterns, instead of leaving you to Tetris your own calendar.</div>
-      </div>
-      <div class="feature-row">
-        <div class="feature-name"><span class="feature-dot"></span>Weekly rhythm</div>
-        <div class="feature-desc">Every Friday, see which blocks you kept and which you skipped — not as a guilt trip, but as a pattern you can actually plan around next week.</div>
-      </div>
-      <div class="feature-row">
-        <div class="feature-name"><span class="feature-dot"></span>Gentle nudges</div>
-        <div class="feature-desc">One quiet reminder when a session starts, one when it ends. No streaks to protect, no red badges piling up while you're trying to concentrate.</div>
-      </div>
-    </div>
-  </div>
-</section>
+      let selectedMinutes = 50;
 
-<section class="how" id="how">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Three steps, every day.</h2>
-      <p>No onboarding maze. Open Clarity and you're already doing it.</p>
-    </div>
+      function openModal() {
+        modal.classList.add("is-open");
+        modal.setAttribute("aria-hidden", "false");
+        message.classList.remove("is-visible");
+        setTimeout(() => task.focus(), 80);
+        document.body.style.overflow = "hidden";
+      }
 
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Plan your day</h3>
-        <p>List what actually needs doing. Clarity slots it into blocks around the meetings already on your calendar.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Enter a session</h3>
-        <p>Start a block and the noise drops away — notifications muted, one task on screen, a timer counting down.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Review your week</h3>
-        <p>See where your focus actually went, and adjust next week's blocks instead of just hoping it goes better.</p>
-      </div>
-    </div>
-  </div>
-</section>
+      function closeModal() {
+        modal.classList.remove("is-open");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      }
 
-<section class="testimonial">
-  <div class="wrap">
-    <blockquote>
-      "I stopped measuring my day by how full my inbox was. I measure it by how many sessions I finished."
-      <cite>— Early Clarity user, product designer</cite>
-    </blockquote>
-  </div>
-</section>
+      document.querySelectorAll(".js-open-session").forEach((button) => {
+        button.addEventListener("click", openModal);
+      });
 
-<section class="cta" id="cta">
-  <div class="wrap">
-    <h2>Your next focused hour starts here.</h2>
-    <p>Free for 14 days. Set up your first block in under two minutes.</p>
-    <a href="#" class="btn-primary">Start your first session</a>
-  </div>
-</section>
+      close.addEventListener("click", closeModal);
 
-<footer>
-  <div class="wrap">
-    <div class="logo"><span class="logo-mark"></span>Clarity</div>
-    <div class="footer-links">
-      <a href="#features">Features</a>
-      <a href="#how">How it works</a>
-      <a href="#cta">Pricing</a>
-    </div>
-  </div>
-  <div class="wrap footer-bottom">
-    © 2026 Clarity. A fictional product, built for practice.
-  </div>
-</footer>
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) closeModal();
+      });
 
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && modal.classList.contains("is-open")) {
+          closeModal();
+        }
+      });
+
+      durationButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          selectedMinutes = Number(button.dataset.minutes);
+          durationButtons.forEach((item) => item.classList.remove("is-selected"));
+          button.classList.add("is-selected");
+        });
+      });
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const taskName = task.value.trim();
+        if (!taskName) return;
+
+        message.textContent =
+          `Your ${selectedMinutes}-minute focus block for “${taskName}” is ready. This demo is front-end only.`;
+        message.classList.add("is-visible");
+      });
+    })();
+  </script>
 </body>
 </html>
