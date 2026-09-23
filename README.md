@@ -22,7 +22,6 @@ Clarity is aimed at college students who get distracted while studying. The page
 - **Features** — the four things Clarity actually does
 - **How it works** — a 3-step process
 - **Testimonial** — social proof from an early user
-- **Pricing** — what it costs to start
 - **Footer**
 
 ## Tech stack
